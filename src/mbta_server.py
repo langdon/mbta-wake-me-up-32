@@ -1,4 +1,5 @@
 from bottle import route, run, HTTPError
+from socket import timeout
 import urllib # using full name because of conflict with bottle
 import json
 
@@ -16,11 +17,17 @@ def line_info(route):
     # if the connection fails it will default to some sample data
     if (route.lower() in ['red', 'blue', 'orange']):
         try:
+            print("Attempting remote data request for " + route.lower())
             route_data = urllib.request.urlopen(
                 _MBTA_DATA_URL.format(route.capitalize()), timeout=5
                 )
             return route_data.read()
         except urllib.error.URLError: # includes HTTPError
+            #probably not the right choice here but good for a demo
+            print("Error retrieving remote, getting local copy.")
+            return _local_line_info(route)
+        except timeout: 
+            print("Remote timed out, getting local copy.")
             return _local_line_info(route)
     raise HTTPError()
     
@@ -30,6 +37,7 @@ def _local_line_info(route):
     lcase_route = route.lower()
     if (lcase_route in ['red', 'blue', 'orange']):
         try:
+            print("Returning " + _DATA_FILE_PATH.format(str(lcase_route)) + " as fake route data")
             return open(_DATA_FILE_PATH.format(str(lcase_route)), mode='rb')
         except IOError:
             raise HTTPError(404, output="No data for given route")
