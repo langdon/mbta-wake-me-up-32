@@ -9,7 +9,7 @@ print ('current trace function', sys.gettrace())
 
 _LOCAL_DATA_URL = 'http://localhost:8090/Data/{0}'
 _LOCAL_STATION_DATA_URL = 'http://localhost:8090/stations'
-_CODE_FULL_PATH = '/home/lwhite/Documents/aptana-python32-scl/mbta-wake-me-up-32/src'
+_CODE_FULL_PATH = '/home/lwhite/Documents/aptana-python-wkspc/mbta-wake-me-up-32/src'
 
 @route('/')
 @route('/index')
