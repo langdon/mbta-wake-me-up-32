@@ -32,13 +32,16 @@ def line_info(route):
     raise HTTPError()
     
 def _local_line_info(route):
-    # takes the route that you want data for, legal routes are 'red', 'orange', 
-    # 'blue'. However, data only exists for 'red'.
+    # takes the route that you want data for, legal routes 
+    #are 'red', 'orange', 'blue'. However, data only exists for 'red'.
     lcase_route = route.lower()
     if (lcase_route in ['red', 'blue', 'orange']):
         try:
-            print("Returning " + _DATA_FILE_PATH.format(str(lcase_route)) + " as fake route data")
-            return open(_DATA_FILE_PATH.format(str(lcase_route)), mode='rb')
+            print("Returning " + 
+                  _DATA_FILE_PATH.format(str(lcase_route)) + 
+                  " as fake route data")
+            return open(_DATA_FILE_PATH.format(str(lcase_route)), 
+                        mode='rb')
         except IOError:
             raise HTTPError(404, output="No data for given route")
     raise HTTPError()
